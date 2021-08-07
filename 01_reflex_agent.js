@@ -27,85 +27,103 @@ function reflex_agent(location, state){
 
 //Visitar los 8 estados
 function test(states){
+	if(!(estadosA() && estadosB())){
       	var location = states[0];		
-      	var state = states[0] == "A" ? states[1] : states[2];
+		  var state = states[0] == "A" ? states[1] : states[2];
       	var action_result = reflex_agent(location, state);
       	//document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result);
-		  
+		  if (location == "A"){ //SE ENCUENTRA EN A
+			if(states[1] == "CLEAN") { //A -> Limpio
+				if(states[2]== "DIRTY"){ //B -> Sucio
+					counter_vacum_a_limpio_b_sucio++;
+					document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 3 | Paso  " + counter_vacum_a_limpio_b_sucio.toString());		
+				}
+				else{// B -> Limpio 
+					counter_vacum_a_limpio_b_limpio++;
+					document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 4 | Paso  " + counter_vacum_a_limpio_b_limpio.toString());
+				}	
+			}
+			else{// A -> Sucio 
+				if(states[2]== "DIRTY"){ //B -> Sucio
+					counter_vacum_a_sucio_b_sucio++;
+					document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 1 | Paso  " + counter_vacum_a_sucio_b_sucio.toString());		
+				}
+				else{// B -> Limpio 
+					counter_vacum_a_sucio_b_limpio++;
+					document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 2 | Paso  " + counter_vacum_a_sucio_b_limpio.toString());
+				}
+			}	
+		}
+		else if (location == "B"){ //SE ENCUENTRA EN B
+			 if(states[2] == "CLEAN"){ //B-> Limpio
+				if(states[1]=="DIRTY"){//A-> Sucio
+					counter_vacum_b_limpio_a_sucio++;
+					document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 6 | Paso  " + counter_vacum_b_limpio_a_sucio.toString());		
+				}
+				else{//	A-> Limpio
+					counter_vacum_b_limpio_a_limpio++;
+					document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 8 | Paso  " + counter_vacum_b_limpio_a_limpio.toString());
+				}
+			 }
+			 else{ //	B -> Sucio
+				if(states[1]=="DIRTY"){//A-> Sucio
+					counter_vacum_b_sucio_a_sucio++;
+					document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 5 | Paso  " + counter_vacum_b_sucio_a_sucio.toString());		
+				}
+				else{//	A-> Limpio
+					counter_vacum_b_sucio_a_limpio++;
+					document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 7 | Paso  " + counter_vacum_b_sucio_a_limpio.toString());
+				}
+			 }
+			} 
 		if (action_result == "CLEAN"){
 			//document.getElementById("log").innerHTML+="<br>eligio: " + esuciarAlAzar();
 			if (location == "A"){ //SE ENCUENTRA EN A
-				if(states[1] = "CLEAN") { //A -> Limpio
-					if(states[2]== "DIRTY"){ //B -> Sucio
-						counter_vacum_a_limpio_b_sucio++;
-						document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 3 | Paso  " + counter_vacum_a_limpio_b_sucio.toString());		
-					}
-					else{// B -> Limpio 
-						counter_vacum_a_limpio_b_limpio++;
-						document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 4 | Paso  " + counter_vacum_a_limpio_b_limpio.toString());
-					}
-					
-				}
-				else{// A -> Sucio 
-					if(states[2]== "DIRTY"){ //B -> Sucio
-						counter_vacum_a_sucio_b_sucio++;
-						document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 1 | Paso  " + counter_vacum_a_sucio_b_sucio.toString());		
-					}
-					else{// B -> Limpio 
-						counter_vacum_a_sucio_b_limpio++;
-						document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 2 | Paso  " + counter_vacum_a_sucio_b_limpio.toString());
-					}
-				}
-				
-				
+				states[1] = "CLEAN";
 			}
-			
-			
 			else if (location == "B"){ //SE ENCUENTRA EN B
-				 if(states[2] = "CLEAN"){ //B-> Limpio
-					if(states[1]=="DIRTY"){//A-> Sucio
-						counter_vacum_b_limpio_a_sucio++;
-						document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 6 | Paso  " + counter_vacum_b_limpio_a_sucio.toString());		
-					}
-					else{//	A-> Limpio
-						counter_vacum_b_limpio_a_limpio++;
-						document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 8 | Paso  " + counter_vacum_b_limpio_a_limpio.toString());
-					}
-
-				 }
-				 else{ //	B -> Sucio
-					if(states[1]=="DIRTY"){//A-> Sucio
-						counter_vacum_b_sucio_a_sucio++;
-						document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 5 | Paso  " + counter_vacum_b_sucio_a_sucio.toString());		
-					}
-					else{//	A-> Limpio
-						counter_vacum_b_sucio_a_limpio++;
-						document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 7 | Paso  " + counter_vacum_b_sucio_a_limpio.toString());
-					}
-				 }
-				 
-				 //document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado  | Paso  " + counter_vacum_b_limpio_a_limpio.toString());
+				states[2] = "CLEAN";
 			}
 		  }
-		else if (action_result == "DIRTY" ){
-			esuciarAlAzar();
-		}
-      	else if (action_result == "RIGHT") states[0] = "B";
-      	else if (action_result == "LEFT") states[0] = "A";
-		
-		if(estadosA() && estadosB()){
+		 else if (action_result == "RIGHT") states[0] = "B";
+      	 else if (action_result == "LEFT") states[0] = "A";
+	setTimeout(function(){ test(states); }, 10);
+	esuciarAlAzar();
+		  }
+		  else {
 			document.getElementById("log").innerHTML+="<br> Ya se entro a todos los estados 2 o mas veces!";
+			alert("Ya se entro a todos los estados 2 o mas veces!");
 			throw new Error('This is not an error. This is just to abort javascript');
-		}  
-
-	setTimeout(function(){ test(states); }, 500);
+		}
 	
 }
 
 function esuciarAlAzar(){
-	var random =  Math.floor(Math.random() * myArray.length);
-	document.getElementById("log").innerHTML+="<br>Ensuciando: "+myArray[random];
-	myArray[random] = "DIRTY";
+	//var random =  Math.floor(Math.random() * myArray.length);
+	var random =  Math.floor(Math.random() * 10);
+	//Ensuciar A 8-10
+	//Ensuciar B 5-7
+	//Ensuciar AMBOS 3-4
+	//NADA 1-2
+	var ensucio = "";
+	if(random>=0 & random <=2){
+		ensucio = "NADA";
+	}
+	else if(random>2 & random <=4){
+		states[1] ="DIRTY";
+		states[2] = "DIRTY";
+		ensucio = "AMBOS";
+	}
+	else if(random>5 & random <=7){
+		states[2] = "DIRTY";
+		ensucio = "B";
+	}
+	else {
+		states[1] = "DIRTY";
+		ensucio = "A";
+	}
+
+	document.getElementById("log").innerHTML+="<br>Ensuciando: "+ensucio;
 }
 
 function estadosA(){
