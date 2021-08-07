@@ -19,8 +19,9 @@ var myArray = [
 ];
 
 function reflex_agent(location, state){
-   	if (state=="DIRTY") return "CLEAN";
-   	else if (location=="A") return "RIGHT";
+	if (state=="DIRTY") return "CLEAN";
+	
+	else if (location=="A") return "RIGHT";
    	else if (location=="B") return "LEFT";
 }
 
@@ -29,9 +30,10 @@ function test(states){
       	var location = states[0];		
       	var state = states[0] == "A" ? states[1] : states[2];
       	var action_result = reflex_agent(location, state);
-      	document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result);
+      	//document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result);
 		  
 		if (action_result == "CLEAN"){
+			//document.getElementById("log").innerHTML+="<br>eligio: " + esuciarAlAzar();
 			if (location == "A"){ //SE ENCUENTRA EN A
 				if(states[1] = "CLEAN") { //A -> Limpio
 					if(states[2]== "DIRTY"){ //B -> Sucio
@@ -60,16 +62,40 @@ function test(states){
 			
 			
 			else if (location == "B"){ //SE ENCUENTRA EN B
-				 states[2] = "CLEAN";
+				 if(states[2] = "CLEAN"){ //B-> Limpio
+					if(states[1]=="DIRTY"){//A-> Sucio
+						counter_vacum_b_limpio_a_sucio++;
+						document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 6 | Paso  " + counter_vacum_b_limpio_a_sucio.toString());		
+					}
+					else{//	A-> Limpio
+						counter_vacum_b_limpio_a_limpio++;
+						document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 8 | Paso  " + counter_vacum_b_limpio_a_limpio.toString());
+					}
+
+				 }
+				 else{ //	B -> Sucio
+					if(states[1]=="DIRTY"){//A-> Sucio
+						counter_vacum_b_sucio_a_sucio++;
+						document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 5 | Paso  " + counter_vacum_b_sucio_a_sucio.toString());		
+					}
+					else{//	A-> Limpio
+						counter_vacum_b_sucio_a_limpio++;
+						document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 7 | Paso  " + counter_vacum_b_sucio_a_limpio.toString());
+					}
+				 }
 				 
-				 document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado 2 | Paso  " + counter_vacum_b_limpio_a_limpio.toString());
+				 //document.getElementById("log").innerHTML+="<br>Location: ".concat(location).concat(" | Action: ").concat(action_result).concat(" | Estado  | Paso  " + counter_vacum_b_limpio_a_limpio.toString());
 			}
-      	}
+		  }
+		else if (action_result == "DIRTY" ){
+			esuciarAlAzar();
+		}
       	else if (action_result == "RIGHT") states[0] = "B";
       	else if (action_result == "LEFT") states[0] = "A";
 		
-		if(estadosA && estadosB){
+		if(estadosA() && estadosB()){
 			document.getElementById("log").innerHTML+="<br> Ya se entro a todos los estados 2 o mas veces!";
+			throw new Error('This is not an error. This is just to abort javascript');
 		}  
 
 	setTimeout(function(){ test(states); }, 500);
@@ -77,8 +103,9 @@ function test(states){
 }
 
 function esuciarAlAzar(){
-	var random =  myArray[Math.floor(Math.random()*myArray.length)];
-	return random;
+	var random =  Math.floor(Math.random() * myArray.length);
+	document.getElementById("log").innerHTML+="<br>Ensuciando: "+myArray[random];
+	myArray[random] = "DIRTY";
 }
 
 function estadosA(){
